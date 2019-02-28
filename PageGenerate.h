@@ -1,0 +1,44 @@
+#ifndef pagegenerate_
+#define pagegenerate_
+#include <cassert>
+#include <string>
+#include <fstream>
+#include <sstream>
+#include<iostream>
+#include <vector>
+#include <random>
+
+using namespace std;
+
+
+
+class PageGenerate{
+public:
+	PageGenerate();
+	//Default constructor
+
+	vector<int> generateNoLocalitySTDIN();
+	//output: vector<int>. Each element repersents value read from stdin
+
+	vector<int> generateNoLocalityFILE(string filename);
+	//input: Filename of int values to read in
+	//output: vector<int>. Each element repersents value read from file
+
+private:
+	bool readFromStdin(vector<int> &pages);
+	//input: vector to hold pages once read in
+	//output: vector containing page values
+
+	bool readInputFile(vector<int> &pages, string inputFileName);
+	//input: vector to hold pages once read in
+	//input: filename of file to read from
+	//output: vector containing page values
+
+	int numPages;
+	//Number of Pages to read in
+	int minInt;
+	//Minimum number of pages to read in
+	int maxInt;
+	//Maximum number of pages
+};
+#endif
