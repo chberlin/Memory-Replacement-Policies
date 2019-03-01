@@ -7,7 +7,6 @@ PageGenerate::PageGenerate(){
 	maxInt = 99;
 }
 
-
 vector<int> PageGenerate::generateNoLocalitySTDIN(){
 	vector<int> pages;
 	if(!readFromStdin(pages)){
@@ -17,10 +16,8 @@ vector<int> PageGenerate::generateNoLocalitySTDIN(){
 		cout << "Error: Incomplete pages" << endl;
 	}
 	return pages;
-
-
-
 }
+
 vector<int> PageGenerate::generateNoLocalityFILE(string filename){
 	vector<int> pages;
 	if(!readInputFile(pages, filename)){
@@ -62,7 +59,6 @@ vector<int> PageGenerate::generateLooping(){
 	}
 	return pages;
 }
-
 
 bool PageGenerate::readFromStdin(vector<int> &pages){
 	string line;
@@ -110,5 +106,3 @@ bool PageGenerate::readInputFile(vector<int> &pages, string inputFileName){
 	}
 	return true;
 }
-
-
