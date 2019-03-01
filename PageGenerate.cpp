@@ -13,6 +13,9 @@ vector<int> PageGenerate::generateNoLocalitySTDIN(){
 	if(!readFromStdin(pages)){
 		cout << "Error generating vector of pages from stdin" << endl;
 	}
+	if(pages.size() != numPages){
+		cout << "Error: Incomplete pages" << endl;
+	}
 	return pages;
 
 
@@ -23,12 +26,42 @@ vector<int> PageGenerate::generateNoLocalityFILE(string filename){
 	if(!readInputFile(pages, filename)){
 		cout << "Error generating vector of pages from file" << endl;
 	}
+	if(pages.size() != numPages){
+		cout << "Error: Incomplete pages" << endl;
+	}
 	return pages;
 }
 
-/*bool PageGenerate::generate8020(){
-	
-}*/
+vector<int> PageGenerate::generate8020(){
+	//Making values 0-19 repersent 80% of pages
+	vector<int> pages;
+	int hotQuantity = .8 * numPages;
+	int i;
+	for(i = 0; i < hotQuantity; i++){
+		int val = rand()%(20);
+		pages.push_back(val);
+	}
+	while(i < numPages){
+		int rVal = rand()%(99-20 + 1) + 20;
+		pages.push_back(rVal);
+		i++;
+	}
+	auto rng = default_random_engine {};
+	shuffle(begin(pages), end(pages), rng);
+	return pages;
+}
+
+vector<int> PageGenerate::generateLooping(){
+	vector<int> pages;
+	int count = 0;
+	for(int i = 0; i < numPages; i++){
+		if(count > maxInt){
+			count = 0;
+		}
+		pages.push_back(count);
+	}
+	return pages;
+}
 
 
 bool PageGenerate::readFromStdin(vector<int> &pages){
