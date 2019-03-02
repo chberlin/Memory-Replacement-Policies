@@ -18,12 +18,18 @@ public:
 	PageGenerate();
 	//Default constructor
 
-	vector<int> generateNoLocalitySTDIN();
-	//output: vector<int>. Each element repersents value read from stdin
+	bool setNumPages(int newValue);
+	//setter to modify numPages data member
 
-	vector<int> generateNoLocalityFILE(string filename);
-	//input: Filename of int values to read in
-	//output: vector<int>. Each element repersents value read from file
+	bool setminInt(int newValue);
+	//setter to modify minInt data member
+
+	bool setmaxInt(int newValue);
+	//setter to modify maxInt data member
+
+
+	vector<int> generateNoLocality();
+	//behavior: makes unsorted numPages of values between minInt and maxInt
 
 	vector<int> generate8020();
 	//behavior: Makes values 0-19 repersent 80% of elments. Values 20-99 repersent 20%
@@ -34,15 +40,6 @@ public:
 	//example: [0,1,2,3,0,1,2,3,0,1,2,3]
 
 private:
-	bool readFromStdin(vector<int> &pages);
-	//input: vector to hold pages once read in
-	//output: vector containing page values
-
-	bool readInputFile(vector<int> &pages, string inputFileName);
-	//input: vector to hold pages once read in
-	//input: filename of file to read from
-	//output: vector containing page values
-
 	int numPages;
 	//Number of Pages to read in
 	int minInt;

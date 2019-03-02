@@ -6,8 +6,7 @@ Tests replacement policies with 100 unique pages, 10,000 page accesses and varyi
 ### Class Structure
 **PageGenerate:** 
 Creates vectors of different makeup to represent disk
-   - No-Locality: Values are read-in from either stdin or file using prog1generator.c
-      - Values are random between a given range. Assumes to provide 10,000 elements with values 0-99
+   - No-Locality: Values are random between a given range. Default to provide 10,000 elements with values 0-99
   - 8020: 20% of elements make up 80% of the vector. Values are shuffled.
   - looping: Assumes values are sequential before repeating. eg. [0,1,2,3,4,0,1,2,3,4,0,1,2,3,4]
   

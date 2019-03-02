@@ -2,29 +2,48 @@
 #include "PageGenerate.h"
 
 PageGenerate::PageGenerate(){
-	numPages = 10000;
+	numPages = 25;
 	minInt = 0;
 	maxInt = 99;
 }
 
-vector<int> PageGenerate::generateNoLocalitySTDIN(){
-	vector<int> pages;
-	if(!readFromStdin(pages)){
-		cout << "Error generating vector of pages from stdin" << endl;
+bool PageGenerate::setNumPages(int newValue){
+	if(numPages <= 0){
+		cout << "Pages must be greater than 0" << endl;
+		return false;
 	}
-	if(pages.size() != numPages){
-		cout << "Error: Incomplete pages" << endl;
+	else{
+		this->numPages = newValue;
+		return true;
 	}
-	return pages;
 }
 
-vector<int> PageGenerate::generateNoLocalityFILE(string filename){
-	vector<int> pages;
-	if(!readInputFile(pages, filename)){
-		cout << "Error generating vector of pages from file" << endl;
+bool PageGenerate::setminInt(int newValue){
+	if(newValue > maxInt || newValue < 0){
+		cout << "Invalid min value" << endl;
+		return false;
 	}
-	if(pages.size() != numPages){
-		cout << "Error: Incomplete pages" << endl;
+	else{
+		this->minInt = newValue;
+		return true;
+	}
+}
+bool PageGenerate::setmaxInt(int newValue){
+	if(newValue < minInt || newValue < 0){
+		cout << "Invalid max value" << endl;
+		return false;
+	}
+	else{
+		this->maxInt = newValue;
+	}	return true;
+}
+
+vector<int> PageGenerate::generateNoLocality(){
+	vector<int> pages;
+	int randNum;
+	for(int i = 0; i < numPages; i++){
+		randNum = (rand() % (maxInt - minInt + 1)) + minInt;
+		pages.push_back(randNum);
 	}
 	return pages;
 }
@@ -58,51 +77,4 @@ vector<int> PageGenerate::generateLooping(){
 		pages.push_back(count);
 	}
 	return pages;
-}
-
-bool PageGenerate::readFromStdin(vector<int> &pages){
-	string line;
-	while(getline(cin, line)) {
-		stringstream ss(line);
-		if(!line.empty()){
-			int value;
-			if(value > maxInt || value < minInt){
-				cout << "Page number must be between 0 - 99" << endl;
-				exit(1);
-			}
-			int count = 0;
-			while(ss >> value && count < numPages){
-				pages.push_back(value);
-			}
-		}
-	}
-	return true;
-}
-
-bool PageGenerate::readInputFile(vector<int> &pages, string inputFileName){
-	ifstream ifFile(inputFileName);
-	string line;
-	if(ifFile.is_open()){
-		cout << "Error opening file" << endl;
-		exit(1);
-		return false;
-	}
-	else{
-		while(getline(ifFile, line)){
-			stringstream ss(line);
-			if(!line.empty()){
-				int value;
-				if(value > maxInt || value < minInt){
-					cout << "Page number must be between 0 - 99" << endl;
-					exit(1);
-				}
-				int count = 0;
-				while(ss >> value && count < numPages){
-					pages.push_back(value);
-					count++;
-				}
-			}
-		}
-	}
-	return true;
 }

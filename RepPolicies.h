@@ -1,18 +1,20 @@
 #ifndef reppolicies_
 #define reppolicies_
 #include <list>
-#include <algorithm>
-#include <random>
 #include <iterator>
+#include <vector>
+#include <iostream>
 
 using namespace std;
 
 class RepPolicies{
 public:
 	RepPolicies(int maxMemory);
-	//input: size of memory cache
 
-	double Optimal(vector<int> pages);
+	bool setMaxMemory(int newSize);
+	//setter to change size of memory
+
+	double optimal(vector<int> pages);
 	//input: vector containing pages as ints
 	//behavior: On miss with full memory, replaces element in memory cache that will be the furthest away
 	//output: hitrate
@@ -32,6 +34,12 @@ private:
 	//input: number of hits
 	//inpiut: number of misses
 	//output: hitrate (hit/ (hit+miss));
+
+	int findMaxIndex(int maxArray[]);
+
+	int findDistanceToNextCall(vector<int> pages, int start, int value);
+
+	bool inMemory(int memory[], int page);
 	int maxMemory;
 };
 #endif
