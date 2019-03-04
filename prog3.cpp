@@ -19,11 +19,13 @@ int main(){
 	cout <<"FIFOPolicy looping " << memory.FIFOPolicy(looping) << endl;
 
 
-	//memory.randomPolicy(noLocality);
-	//memory.randomPolicy(_8020);
-	//memory.randomPolicy(looping);
+	cout <<"RandomPolicy No-Locality " << memory.randomPolicy(noLocality) << endl;
+	cout <<"RandomPolicy 8020 " << memory.randomPolicy(_8020) << endl;
+	cout <<"RandomPolicy looping " << memory.randomPolicy(looping) << endl;
 
-	//LRU has not been implemented
+	cout <<"LRU No-Locality " << memory.LRU(noLocality) << endl;
+	cout <<"LRU 8020 " << memory.LRU(_8020) << endl;
+	cout <<"LRU looping " << memory.LRU(looping) << endl;
 	//Clock has not been implemented
 
 	memory.setMaxMemory(10);

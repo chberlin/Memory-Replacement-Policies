@@ -27,6 +27,10 @@ public:
 	//input: vector containing pages as ints
 	//behavior: on miss with full memory, replaces element from memory at random
 
+	double LRU(vector<int> pages);
+	//input: vector containing pages as ints
+	//behavior: on miss with full memory, repalces elemment that was least recently used
+
 private:
 
 	double hitRate(int hit, int miss);
@@ -36,13 +40,23 @@ private:
 	//output: hitrate (hit/ (hit+miss));
 
 	int findMaxIndex(int maxArray[]);
+	//finds maximum element, returns associated index value
 
 	int findDistanceToNextCall(const vector<int> &pages, int start, int value);
+	//iterates through pages vector from start position, returns number of iterations until value is found
 
 	bool inMemory(int *memory, int page);
+	//checks to see if page value is in memory
 
 	void intalizeMemoryArray(int *memory);
+	//initalizes memory with a high number such as 9999
+
+	int findDistanceToLastCall(const vector<int> &pages, int start, int value);
+	//iterates through pages vector from start position to beginning, returns number of iterations until value is found
+
+	int checkForVoidValue(int *memory);
 
 	int maxMemory;
+	int voidValue;
 };
 #endif

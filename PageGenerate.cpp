@@ -71,7 +71,7 @@ vector<int> PageGenerate::generateLooping(){
 	vector<int> pages;
 	int count = 0;
 	for(int i = 0; i < numPages; i++){
-		if(count > maxInt){
+		if(count > (maxInt/2)){
 			count = 0;
 		}
 		pages.push_back(count);
