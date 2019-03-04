@@ -5,18 +5,18 @@ int main(){
 	PageGenerate disk = PageGenerate();
 	vector<int> noLocality = disk.generateNoLocality();
 	vector<int> _8020 = disk.generate8020();
-	//vector<int> looping = disk.generateLooping();
+	vector<int> looping = disk.generateLooping();
 
 	//Memory size default is 5
 	RepPolicies memory = RepPolicies(5);
-	//cout << memory.optimal(noLocality) << endl;
-	cout << memory.optimal(_8020) << endl;
-	//memory.optimal(looping);
+	cout << "Optimal No-Locality " << memory.optimal(noLocality) << endl;
+	cout << "Optimal 8020 " << memory.optimal(_8020) << endl;
+	cout << "Optimal looping " << memory.optimal(looping) << endl;
 
 
- 	//cout << memory.FIFOPolicy(noLocality) << endl;
-	//memory.FIFOPolicy(_8020);
-	//memory.FIFOPolicy(looping);
+ 	cout <<"FIFOPolicy noLocality " << memory.FIFOPolicy(noLocality) << endl;
+	cout <<"FIFOPolicy 8020 " << memory.FIFOPolicy(_8020) << endl;
+	cout <<"FIFOPolicy looping " << memory.FIFOPolicy(looping) << endl;
 
 
 	//memory.randomPolicy(noLocality);

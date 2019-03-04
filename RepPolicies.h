@@ -37,9 +37,12 @@ private:
 
 	int findMaxIndex(int maxArray[]);
 
-	int findDistanceToNextCall(vector<int> pages, int start, int value);
+	int findDistanceToNextCall(const vector<int> &pages, int start, int value);
 
-	bool inMemory(int memory[], int page);
+	bool inMemory(int *memory, int page);
+
+	void intalizeMemoryArray(int *memory);
+
 	int maxMemory;
 };
 #endif

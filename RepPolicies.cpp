@@ -21,11 +21,11 @@ double RepPolicies::optimal(vector<int> pages){
 	int hit = 0;
 	int memory[maxMemory];
 	int memorySize = 0;
+	intalizeMemoryArray(memory);
 	int i;
 	for(i = 0; i < pages.size(); i++){
 		if(inMemory(memory, pages.at(i))){
 			hit++;
-			cout << "Page: " << pages.at(i) << endl;
 		}
 		else{
 			//memory isn't full. Add to Memory
@@ -36,20 +36,14 @@ double RepPolicies::optimal(vector<int> pages){
 			else{
 				//Check for victim that will be called furthest away
 				int maxArray[maxMemory];
-				for(int m = 0; m < maxMemory; m++){
-					maxArray[m] = findDistanceToNextCall(pages, pages.at(i), memory[m]);
+				for(int m = 0; m < memorySize; m++){
+					maxArray[m] = findDistanceToNextCall(pages, i, memory[m]);
 				}
 				memory[findMaxIndex(maxArray)] = pages.at(i);
 			}
 			miss++;
 		}
-		/*for(int c = 0; c < maxMemory; c++){
-			cout << memory[c] << endl;
-		}
-		cout << "--------------------" << endl;*/
 	}
-	cout << "hits: " << hit << endl;
-	cout << "misses: " << miss << endl;
 	return hitRate(hit, miss);
 }
 
@@ -98,13 +92,13 @@ double RepPolicies::randomPolicy(vector<int> pages){
 	}
 	return hitRate(hit, miss);
 }
-int RepPolicies::findDistanceToNextCall(vector<int> pages, int start, int value){
+int RepPolicies::findDistanceToNextCall(const vector<int> &pages, int start, int value){
 	for(int i = start; i < pages.size(); i++){
 		if(pages.at(i) == value){
 			return i;
 		}
 	}
-	return -1;
+	return 9999;//Indicates value is not going to be called again, so should be victim. Return value greater than range of pages
 }
 
 double RepPolicies::hitRate(int hit, int miss){
@@ -113,20 +107,22 @@ double RepPolicies::hitRate(int hit, int miss){
 int RepPolicies::findMaxIndex(int maxArray[]){
 	int max = 0;
 	for(int i = 0; i < maxMemory; i++){
-		if (maxArray[i] > max){
+		if (maxArray[i] > maxArray[max]){
 			max = i;
 		}
 	}
 	return max;
 }
-bool RepPolicies::inMemory(int memory[], int value){
+bool RepPolicies::inMemory(int *memory, int value){
 	for(int i = 0; i < maxMemory; i++){
-		cout << "memory: " << memory[i] << " value: " << value << endl;
-		if(memory[i] == value){
-
-			cout << "FOUND. HIT REGISTERED!!!!!!" << endl;
+		if(memory[i] == value && memory[i] != -1){
 			return true;
 		}
 	}
 	return false;
+}
+void RepPolicies::intalizeMemoryArray(int *memory){
+	for(int i = 0; i < maxMemory; i++){
+		memory[i] = 9999;
+	}
 }
