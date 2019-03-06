@@ -2,7 +2,7 @@
 #include "PageGenerate.h"
 
 PageGenerate::PageGenerate(){
-	numPages = 10000;
+	numPages = 25;
 	minInt = 0;
 	maxInt = 99;
 }

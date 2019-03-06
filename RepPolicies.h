@@ -4,6 +4,7 @@
 #include <iterator>
 #include <vector>
 #include <iostream>
+#include <string>
 
 using namespace std;
 
@@ -14,20 +15,20 @@ public:
 	bool setMaxMemory(int newSize);
 	//setter to change size of memory
 
-	double optimal(vector<int> pages);
+	double optimal(const vector<int> pages);
 	//input: vector containing pages as ints
 	//behavior: On miss with full memory, replaces element in memory cache that will be the furthest away
 	//output: hitrate
 
-	double FIFOPolicy(vector<int> pages);
+	double FIFOPolicy(const vector<int> pages);
 	//input: vector containing pages as ints
 	//behavior: On miss with full memory, replaces element that came in first
 
-	double randomPolicy(vector<int> pages);
+	double randomPolicy(const vector<int> pages);
 	//input: vector containing pages as ints
 	//behavior: on miss with full memory, replaces element from memory at random
 
-	double LRU(vector<int> pages);
+	double LRU(const vector<int> pages);
 	//input: vector containing pages as ints
 	//behavior: on miss with full memory, repalces elemment that was least recently used
 
@@ -45,7 +46,7 @@ private:
 	int findDistanceToNextCall(const vector<int> &pages, int start, int value);
 	//iterates through pages vector from start position, returns number of iterations until value is found
 
-	bool inMemory(int *memory, int page);
+	bool inMemory(int memory[], int page);
 	//checks to see if page value is in memory
 
 	void intalizeMemoryArray(int *memory);
@@ -53,8 +54,6 @@ private:
 
 	int findDistanceToLastCall(const vector<int> &pages, int start, int value);
 	//iterates through pages vector from start position to beginning, returns number of iterations until value is found
-
-	int checkForVoidValue(int *memory);
 
 	int maxMemory;
 	int voidValue;
