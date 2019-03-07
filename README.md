@@ -13,13 +13,30 @@ Creates vectors of different makeup to represent disk
 **RepPolicies:**
 Provides methods to implement replacement policy algorithims when memory is full and get a cache-miss
 (memory is repersented as a c++ std linked list)
-- Optimal: Not-predictive. Removes page from memory that is furthest away
+- Optimal: Not-predictive. Removes page from memory that will appear furthest away into the future
 - FIFO: Removes victim page that came in first
 - RAND: Removes victim at random
 - Clock: Not yet implemented
-- Least Recently Used: Not yet implemented
+- Least Recently Used: Removes page from memory that will appeared furthest away into the past
 
 **prog3:**
 - Runner program.
 - Makes an instance of PageGenerate to generate various vector types
-- Makes various instances of RepPolicies to generate different sized memories and runs polices off vectors
+- Makes instance of RepPolicies
+- Creates three CSV files
+  - No-Locality.csv
+  - 8020.csv
+  - loop.csv
+- Each CSV file contains hit rate data on each algorithim with memory size between 0 to 100 in intervals of 5
+- CSV data can be graphed using
+
+
+# Run Instructions
+To compile
+`make`
+
+To graph output
+`make graph`
+
+clean
+`make clean`
