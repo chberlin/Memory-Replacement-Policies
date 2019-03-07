@@ -11,4 +11,4 @@ prog3.o : prog3.cpp
 	g++ -c -std=c++11 prog3.cpp
 
 clean:
-	rm *.o prog3
+	rm *.o  *.csv prog3

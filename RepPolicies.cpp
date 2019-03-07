@@ -1,13 +1,13 @@
 #include "RepPolicies.h"
 
 
-RepPolicies::RepPolicies(int maxMemory){
-	this->maxMemory = maxMemory;
+RepPolicies::RepPolicies(){
+	this->maxMemory = 0;
 	this->voidValue = 99999;
 }
 
 bool RepPolicies::setMaxMemory(int newSize){
-	if(newSize < 1){
+	if(newSize < 0){
 		cout << "Error: Memory needs to have a size" << endl;
 		return false;
 	}
@@ -176,7 +176,7 @@ double RepPolicies::clock(const vector<int> pages){
 	int hit = 0, miss = 0;
 	int memory[maxMemory];
 	int memorySize = 0; // this value shows how full/not full the memory Array is
-	initalizeMemoryArray(memory);
+	intalizeMemoryArray(memory);
 	bool found_page = false;
 
 	// We need to go thru each page reference in the stream to check if we have
@@ -184,7 +184,7 @@ double RepPolicies::clock(const vector<int> pages){
 	for (int ii = 0; ii < all_pages.size(); ii++) {
 
 		// if the page that we currently need is already in memory
-		if (inMemory(memory, pages[i])) {
+		if (inMemory(memory, pages[ii])) {
 			hit += 1;
 		}
 
@@ -195,7 +195,7 @@ double RepPolicies::clock(const vector<int> pages){
 			// First let's see if there is more space left in memory
 			if (memorySize < maxMemory) {
 				// if, so then all we need to do is add the pagestruct to the next open spot in memory
-				memory[memorySize] = pages[i];
+				memory[memorySize] = pages[ii];
 			}
 
 			// If memory is full then we need to make an eviction

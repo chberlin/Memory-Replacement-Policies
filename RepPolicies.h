@@ -5,12 +5,13 @@
 #include <vector>
 #include <iostream>
 #include <string>
+#include <algorithm>
 
 using namespace std;
 
 class RepPolicies{
 public:
-	RepPolicies(int maxMemory);
+	RepPolicies();
 
 	bool setMaxMemory(int newSize);
 	//setter to change size of memory
@@ -31,6 +32,9 @@ public:
 	double LRU(const vector<int> pages);
 	//input: vector containing pages as ints
 	//behavior: on miss with full memory, repalces elemment that was least recently used
+
+	double clock(const vector<int> pages);
+	//input: vector containing pages as ints
 
 private:
 
