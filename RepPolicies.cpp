@@ -148,6 +148,102 @@ double RepPolicies::LRU(const vector<int> pages){
 	}	
 	return hitRate(hit, miss);
 }
+
+double RepPolicies::clock(const vector<int> pages){
+
+	struct pagestruct {
+
+		int page_num;
+		int reference_bit;
+
+	}; 
+
+	// create a list of pagestruct objects fro the input pages list
+	vector<pagestruct> all_pages;
+
+	for (int x : pages) {
+
+		// populate a struct with the proper values
+		pagestruct page;
+		page.page_num = x;
+		page.reference_bit = 0; // should I initialize all of these as 0 or 1?
+
+		// once initialized, add the pagestruct to the vector of pagestruct structures
+		all_pages.push_back(page);
+
+	}
+
+	int hit = 0, miss = 0;
+	int memory[maxMemory];
+	int memorySize = 0; // this value shows how full/not full the memory Array is
+	initalizeMemoryArray(memory);
+	bool found_page = false;
+
+	// We need to go thru each page reference in the stream to check if we have
+	// the page in memory or not and act accordingly
+	for (int ii = 0; ii < all_pages.size(); ii++) {
+
+		// if the page that we currently need is already in memory
+		if (inMemory(memory, pages[i])) {
+			hit += 1;
+		}
+
+		// If we are in this block, then we know that the needed page is not in memory (the cache)
+		// There are a number of actions we could take
+		else {
+
+			// First let's see if there is more space left in memory
+			if (memorySize < maxMemory) {
+				// if, so then all we need to do is add the pagestruct to the next open spot in memory
+				memory[memorySize] = pages[i];
+			}
+
+			// If memory is full then we need to make an eviction
+			else {
+
+				bool found_page = false;
+				int counter = 0;
+				int index;	
+				pagestruct current_page;
+			
+				while (!found_page) {
+
+					index = counter % all_pages.size();
+
+					current_page = all_pages[index];
+					if (current_page.reference_bit = 0) {
+						// Then stop the traversal and just use this current page as a victim
+
+						// HANDLE THIS!!!!!					
+
+					}
+
+					else { // the only other case is that the reference bit is set to 1
+						// Just set the ref bit to 0 and move on looking for another page
+						// If nothing else, this page can be used again in the next go around
+						current_page.reference_bit = 0;
+					}
+
+					counter += 1;
+	
+				}
+
+
+			}
+
+			// Since this was a miss, we incremement the miss counter
+			// We incremement the miss value here because even if we miss due to the 
+			// cache (memory) not yet being full it still counts as a miss
+			miss += 1;
+
+
+		}
+
+	}
+	
+
+}
+
 int RepPolicies::findDistanceToLastCall(const vector<int> &pages, int start, int value){
 	for(int i = start; i >= 0; --i){
 		if(pages.at(i) == value){
