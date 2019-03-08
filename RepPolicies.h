@@ -59,6 +59,9 @@ private:
 	int findDistanceToLastCall(const vector<int> &pages, int start, int value);
 	//iterates through pages vector from start position to beginning, returns number of iterations until value is found
 
+	int indexByValue(int * memory, int value);
+	//iterates through memory array and returns index of first entry with contents matching value variable
+
 	int maxMemory;
 	int voidValue;
 };

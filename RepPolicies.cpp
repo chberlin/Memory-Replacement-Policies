@@ -149,8 +149,11 @@ double RepPolicies::LRU(const vector<int> pages){
 	return hitRate(hit, miss);
 }
 
-double RepPolicies::clock(const vector<int> pages){
+double RepPolicies::clock(const vector<int> pages) {
 
+	// the structure that will hold the page number and
+	// the bit information (such as use/reference bit) for
+	// a given page
 	struct pagestruct {
 
 		int page_num;
@@ -161,6 +164,7 @@ double RepPolicies::clock(const vector<int> pages){
 	// create a list of pagestruct objects fro the input pages list
 	vector<pagestruct> all_pages;
 
+	// make a pagestruct object for each int in pages and initialize it
 	for (int x : pages) {
 
 		// populate a struct with the proper values
@@ -176,6 +180,7 @@ double RepPolicies::clock(const vector<int> pages){
 	int hit = 0, miss = 0;
 	int memory[maxMemory];
 	int memorySize = 0; // this value shows how full/not full the memory Array is
+	int curr_pagenum;
 	intalizeMemoryArray(memory);
 	bool found_page = false;
 
@@ -183,19 +188,39 @@ double RepPolicies::clock(const vector<int> pages){
 	// the page in memory or not and act accordingly
 	for (int ii = 0; ii < all_pages.size(); ii++) {
 
+		// We need to look at the page number that we're currently trying to 
+		// access and update its reference bit to 1 (since it has been called)
+		curr_pagenum = memory[ii];
+
+		for (pagestruct xpage : all_pages) {
+
+			// take every pagestruct with page number that matches curr_pagenum
+			// and set it's reference bit to 1 (since it is currently being accessed)
+			if (xpage.page_num == curr_pagenum) {
+				xpage.reference_bit = 1;
+			}
+
+		}
+
+		/* Now we can begin checking if the page we're currently accesssing
+		   is in memory (and acting accordingly) */
+
 		// if the page that we currently need is already in memory
 		if (inMemory(memory, pages[ii])) {
 			hit += 1;
 		}
 
-		// If we are in this block, then we know that the needed page is not in memory (the cache)
-		// There are a number of actions we could take
+		// If we are in this block (below), then we know that the needed page is not in memory (the cache)
+		// There are a number of actions we could take within
 		else {
 
 			// First let's see if there is more space left in memory
 			if (memorySize < maxMemory) {
 				// if, so then all we need to do is add the pagestruct to the next open spot in memory
 				memory[memorySize] = pages[ii];
+				memorySize += 1;
+
+				cout << "Are we seg faulting?" << endl;
 			}
 
 			// If memory is full then we need to make an eviction
@@ -204,30 +229,56 @@ double RepPolicies::clock(const vector<int> pages){
 				bool found_page = false;
 				int counter = 0;
 				int index;	
+				int victim_index;
 				pagestruct current_page;
-			
+
+				cout << "No, not anymore" << endl;
+
 				while (!found_page) {
 
 					index = counter % all_pages.size();
+					cout << "index value is " << index << endl;
+
+					cout << "Wait, we're not stuck in this while loop, are we?" << endl;
+					cout << "current_page.reference_bit = " << current_page.reference_bit << endl;
 
 					current_page = all_pages[index];
-					if (current_page.reference_bit = 0) {
-						// Then stop the traversal and just use this current page as a victim
+					if (current_page.reference_bit == 0) {
 
-						// HANDLE THIS!!!!!					
+						// Then stop the traversal (by setting found_page
+						// to true) and just use this current page as a victim
+						found_page = true;
+						victim_index = indexByValue(memory, current_page.page_num);
+						cout << "VICTIM INDEX IS " << victim_index << endl;
 
 					}
 
-					else { // the only other case is that the reference bit is set to 1
-						// Just set the ref bit to 0 and move on looking for another page
-						// If nothing else, this page can be used again in the next go around
+					// the only other case is that the reference bit is set to 1
+					else { 
+						// If so, just set the ref bit to 0 and move on looking for another page
+						// If nothing else, this page can be used again in the next go around (which
+						// is the worst case scenario)
+						// Also, set the found_page bool to true to end the loop
+						//found_page = true;
 						current_page.reference_bit = 0;
 					}
 
+					// Increment the counter so that we can keep going up "around"
+					// the list of pages.
 					counter += 1;
 	
 				}
 
+				cout << "We almost were, but not anymore, it's something else." << endl;
+
+				// Once the above while loop is over, we have found our victim index and we
+				// can swap it out of memory for the new page that we are currently bringing in
+				memory[victim_index] = pages[ii];
+
+				cout << "Is it you?!?!?!?!?!?!?!?!??!" << endl;
+				cout << "IT IS, well if you're seeing this, IT WAS!!!!!!!" << endl;
+
+				cout << "VICTIM INDEX (AGAIN, lol) " << victim_index << endl;
 
 			}
 
@@ -240,7 +291,27 @@ double RepPolicies::clock(const vector<int> pages){
 		}
 
 	}
-	
+
+	cout << "WAIT WHAT??????" << endl;
+
+	/* For Testing */
+
+	///*
+	cout << "-------------------" << endl;
+	cout << "[";
+
+	cout << "CLOCK TEST: runtrhough of memory" << endl << endl;
+	for(int j = 0; j < maxMemory; j++){
+		cout << memory[j] << ", ";
+	}
+
+	cout << "]" << endl;
+	cout << "-------------------" << endl;
+	//*/
+
+	cout << "We getting out of this function, dog" << endl;
+
+	return hitRate(hit, miss);
 
 }
 
@@ -287,4 +358,22 @@ void RepPolicies::intalizeMemoryArray(int *memory){
 	for(int i = 0; i < maxMemory; i++){
 		memory[i] = voidValue;
 	}
+}
+
+// In a given array, memory, find the index of the given value
+int RepPolicies::indexByValue(int * memory, int value) {
+
+	for (int ii = 0; ii < maxMemory; ii++) {
+
+		if (memory[ii] == value) {
+			return ii;
+		}
+
+	}
+
+	// This is the case in which we didn't find the value in the array,
+	// which shouldn't happen due to the checks that happen before this
+	// function would be called
+	return -1;
+
 }

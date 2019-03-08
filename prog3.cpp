@@ -36,6 +36,9 @@ int main(){
 	cout <<"LRU 8020 " << memory.LRU(_8020) << endl;
 	cout <<"LRU looping " << memory.LRU(looping) << endl;
 
+	cout <<"Clock No-Locality " << memory.clock(noLocality) << endl;
+	cout <<"Clock 8020 " << memory.clock(_8020) << endl;
+	cout <<"Clock looping " << memory.clock(looping) << endl;
 
 	//makeCSVFile("No-Locality.csv", noLocality, memory);
 	//makeCSVFile("8020.csv", _8020, memory);
