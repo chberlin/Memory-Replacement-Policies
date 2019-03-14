@@ -154,12 +154,12 @@ double RepPolicies::clock(const vector<int> pages) {
 	// the structure that will hold the page number and
 	// the bit information (such as use/reference bit) for
 	// a given page
-	struct pagestruct {
+	//struct pagestruct {
 
-		int page_num;
-		int reference_bit;
+	//	int page_num;
+	//	int reference_bit;
 
-	}; 
+	//}; 
 
 	// create a list of pagestruct objects fro the input pages list
 	vector<pagestruct> all_pages;
@@ -177,6 +177,16 @@ double RepPolicies::clock(const vector<int> pages) {
 
 	}
 
+	cout << "JUST AS A TEST" << endl;
+
+	for (pagestruct p : all_pages) {
+
+	cout << endl;
+	cout << p.page_num << " ; " << p.reference_bit << endl;
+	cout << endl;
+
+	}
+
 	int hit = 0, miss = 0;
 	int memory[maxMemory];
 	int memorySize = 0; // this value shows how full/not full the memory Array is
@@ -190,7 +200,7 @@ double RepPolicies::clock(const vector<int> pages) {
 
 		// We need to look at the page number that we're currently trying to 
 		// access and update its reference bit to 1 (since it has been called)
-		curr_pagenum = memory[ii];
+		curr_pagenum = pages[ii];
 
 		for (pagestruct xpage : all_pages) {
 
@@ -236,25 +246,43 @@ double RepPolicies::clock(const vector<int> pages) {
 
 				while (!found_page) {
 
-					index = counter % all_pages.size();
+					index = counter % maxMemory;
 					cout << "index value is " << index << endl;
 
 					cout << "Wait, we're not stuck in this while loop, are we?" << endl;
 					cout << "current_page.reference_bit = " << current_page.reference_bit << endl;
 
-					current_page = all_pages[index];
+					// Find the current page
+					for (pagestruct xpage : all_pages) {
+
+						if (xpage.page_num == memory[index]) {
+							current_page = xpage;
+						}
+
+					}
+
+					// Now, check the current page's reference bit
 					if (current_page.reference_bit == 0) {
+
+						cout << "ATTENTION, WE HAVE FOUND A PAGE TO REPLACE" << endl;
 
 						// Then stop the traversal (by setting found_page
 						// to true) and just use this current page as a victim
 						found_page = true;
 						victim_index = indexByValue(memory, current_page.page_num);
+						cout << "current page_num: " << current_page.page_num << endl;
+						for (int jj = 0; jj < sizeof(memory) / sizeof(int); jj++) {
+							cout << memory[jj] << endl;
+						}
 						cout << "VICTIM INDEX IS " << victim_index << endl;
 
 					}
 
 					// the only other case is that the reference bit is set to 1
 					else { 
+
+						cout << "replacement page not yet found, we're working on it" << endl;
+
 						// If so, just set the ref bit to 0 and move on looking for another page
 						// If nothing else, this page can be used again in the next go around (which
 						// is the worst case scenario)
@@ -282,13 +310,21 @@ double RepPolicies::clock(const vector<int> pages) {
 
 			}
 
+			cout << "This is where we seg fault" << endl;
+			cout << "yes here" << endl;
+
 			// Since this was a miss, we incremement the miss counter
 			// We incremement the miss value here because even if we miss due to the 
 			// cache (memory) not yet being full it still counts as a miss
 			miss += 1;
 
+			cout << "or.....is it here" << endl;
+
 
 		}
+
+
+		cout << "okay, maybe here?" << endl;
 
 	}
 
@@ -377,3 +413,4 @@ int RepPolicies::indexByValue(int * memory, int value) {
 	return -1;
 
 }
+

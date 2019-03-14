@@ -13,6 +13,16 @@ class RepPolicies{
 public:
 	RepPolicies();
 
+	// the structure that will hold the page number and
+	// the bit information (such as use/reference bit) for
+	// a given page
+	struct pagestruct {
+
+		int page_num;
+		int reference_bit;
+
+	}; 
+
 	bool setMaxMemory(int newSize);
 	//setter to change size of memory
 
