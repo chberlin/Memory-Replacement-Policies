@@ -5,6 +5,8 @@
 #include <vector>
 #include <iostream>
 #include <string>
+#include <map>
+#include <set>
 #include <algorithm>
 
 using namespace std;
@@ -16,12 +18,12 @@ public:
 	// the structure that will hold the page number and
 	// the bit information (such as use/reference bit) for
 	// a given page
-	struct pagestruct {
+	/*struct pagestruct {
 
 		int page_num;
 		int reference_bit;
 
-	}; 
+	}; */
 
 	bool setMaxMemory(int newSize);
 	//setter to change size of memory

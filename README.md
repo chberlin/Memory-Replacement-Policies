@@ -16,7 +16,7 @@ Provides methods to implement replacement policy algorithims when memory is full
 - Optimal: Not-predictive. Removes page from memory that will appear furthest away into the future
 - FIFO: Removes victim page that came in first
 - RAND: Removes victim at random
-- Clock: Not yet implemented
+- Clock: Searches through memory for page with use bit of 0 for victim. 
 - Least Recently Used: Removes page from memory that will appeared furthest away into the past
 
 **prog3:**
