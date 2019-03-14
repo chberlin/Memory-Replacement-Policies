@@ -184,6 +184,7 @@ double RepPolicies::clock(const vector<int> pages){
 				for(int m = 0; m < memorySize; m++){
 					if(pageMap[memory[m]] == 0){
 						victimIndex = m;
+						break;
 					}
 					else if(pageMap[memory[m]] == 1){
 						pageMap[memory[m]] = 0;
