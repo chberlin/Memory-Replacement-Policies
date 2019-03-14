@@ -119,7 +119,7 @@ double RepPolicies::LRU(const vector<int> pages){
 				for(int m = 0; m < memorySize; m++){
 					maxArray[m] = findDistanceToLastCall(pages, i, memory[m]);
 				}
-				int victimIndex = findMaxIndex(maxArray);
+				int victimIndex = findMinIndex(maxArray);
 				memory[victimIndex] = pages.at(i);
 			}
 			miss++;
@@ -180,7 +180,7 @@ double RepPolicies::clock(const vector<int> pages){
 }
 
 int RepPolicies::findDistanceToLastCall(const vector<int> &pages, int start, int value){
-	for(int i = start; i >= 0; --i){
+	for(int i = start; i >= 0; i--){
 		if(pages.at(i) == value){
 			return (i);
 		}
@@ -209,9 +209,18 @@ int RepPolicies::findMaxIndex(int maxArray[]){
 	}
 	return max;
 }
+int RepPolicies::findMinIndex(int maxArray[]){
+	int min = 0;
+	for(int i = 0; i < maxMemory; i++){
+		if (maxArray[i] < maxArray[min]){
+			min = i;
+		}
+	}
+	return min;
+}
 bool RepPolicies::inMemory(int *memory, int value){
 	for(int i = 0; i < maxMemory; i++){
-		if(memory[i] == value && memory[i]){
+		if(memory[i] == value){
 			return true;
 		}
 	}

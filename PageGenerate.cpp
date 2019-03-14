@@ -59,13 +59,12 @@ vector<int> PageGenerate::generate8020(){
 		int val = rand()%(20);
 		pages.push_back(val);
 	}
-	while(i < numPages){
-		int rVal = rand()%(99-20 + 1) + 20;
+	for(i; i < numPages; i++){
+		int rVal = (rand()% 80) + 20;//(99-20 + 1) + 20;
 		pages.push_back(rVal);
-		i++;
 	}
-	//auto rng = default_random_engine {};
-	//shuffle(begin(pages), end(pages), rng);
+	auto rng = default_random_engine {};
+	shuffle(begin(pages), end(pages), rng);
 	return pages;
 }
 

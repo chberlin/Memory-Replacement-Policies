@@ -3,6 +3,8 @@ Description: Implements and tests memory replacement polcies for effectivenss in
 
 Tests replacement policies with 100 unique pages, 10,000 page accesses and varying size of a memory-like cache. Example holding 5, 10, 15..100 pages.
 
+Produces csv and graph files to show efficencies
+
 ### Class Structure
 **PageGenerate:** 
 Creates vectors of different makeup to represent disk
@@ -38,7 +40,7 @@ To compile
 To run and Generate CSV files
 `./prog3`
 
-To graph output
+To graph output. Needs supporting csv files
 `make graph`
 
 Removes .o, executable, csv, and png files

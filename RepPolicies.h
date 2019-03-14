@@ -48,6 +48,9 @@ private:
 
 	int findMaxIndex(int maxArray[]);
 	//finds maximum element, returns associated index value
+	
+	int findMinIndex(int maxArray[]);
+	//finds minimum element, returns associated index value
 
 	int findDistanceToNextCall(const vector<int> &pages, int start, int value);
 	//iterates through pages vector from start position, returns number of iterations until value is found

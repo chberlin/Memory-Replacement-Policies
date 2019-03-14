@@ -15,22 +15,6 @@ int main(){
 	vector<int> noLocality = disk.generateNoLocality();
 	vector<int> _8020 = disk.generate8020();
 	vector<int> looping = disk.generateLooping();
-
-	int eigt = 0;
-	int twed = 0;
-	for(int i = 0; i < _8020.size(); i++){
-		//if(i % 10 == 0){
-		//	cout << endl;
-		//}
-		//cout << _8020.at(i) << ", ";
-		if( _8020.at(i) < 20){
-			eigt++;
-		}
-		else{
-			twed++;
-		}
-	}
-	cout << "Less than 20: " << eigt << " Greater than: " << twed << endl;
 	RepPolicies memory = RepPolicies();
 
 	//print statements for debugging.
@@ -57,7 +41,7 @@ int main(){
 
 	makeCSVFile("No-Locality.csv", noLocality, memory);
 	makeCSVFile("8020.csv", _8020, memory);
-	makeCSVFile("loop.csv", looping, memory);
+	makeCSVFile("Loop.csv", looping, memory);
 
 	return 0;
 }

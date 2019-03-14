@@ -14,6 +14,6 @@ clean:
 	rm *.o  *.csv prog3 *.png
 
 graph:
-	gnuplot -e "title='No-Locality'" -e "input_filename='No-Locality.csv'" plot_hit_rates.plt > No-Locality.png
-	gnuplot -e "title='8020'" -e "input_filename='8020.csv'" plot_hit_rates.plt > 8020.png
-	gnuplot -e "title='loop'" -e "input_filename='loop.csv'" plot_hit_rates.plt > loop.png
+	gnuplot -e "title='The No-Locality Workload'" -e "input_filename='No-Locality.csv'" plot_hit_rates.plt > No-Locality.png
+	gnuplot -e "title='The 80-20 Workload'" -e "input_filename='8020.csv'" plot_hit_rates.plt > 8020.png
+	gnuplot -e "title='The Looping-Sequential Workload'" -e "input_filename='Loop.csv'" plot_hit_rates.plt > Loop.png
