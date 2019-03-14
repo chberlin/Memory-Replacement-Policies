@@ -16,11 +16,26 @@ int main(){
 	vector<int> _8020 = disk.generate8020();
 	vector<int> looping = disk.generateLooping();
 
+	int eigt = 0;
+	int twed = 0;
+	for(int i = 0; i < _8020.size(); i++){
+		//if(i % 10 == 0){
+		//	cout << endl;
+		//}
+		//cout << _8020.at(i) << ", ";
+		if( _8020.at(i) < 20){
+			eigt++;
+		}
+		else{
+			twed++;
+		}
+	}
+	cout << "Less than 20: " << eigt << " Greater than: " << twed << endl;
 	RepPolicies memory = RepPolicies();
 
-	//print statements for debugging. Delete before final
-	memory.setMaxMemory(5); 
-	cout << "Optimal No-Locality " << memory.optimal(noLocality) << endl;
+	//print statements for debugging.
+	//memory.setMaxMemory(5); 
+	/*cout << "Optimal No-Locality " << memory.optimal(noLocality) << endl;
 	cout << "Optimal 8020 " << memory.optimal(_8020) << endl;
 	cout << "Optimal looping " << memory.optimal(looping) << endl;
 
@@ -38,18 +53,19 @@ int main(){
 
 	cout <<"Clock No-Locality " << memory.clock(noLocality) << endl;
 	cout <<"Clock 8020 " << memory.clock(_8020) << endl;
-	cout <<"Clock looping " << memory.clock(looping) << endl;
+	cout <<"Clock looping " << memory.clock(looping) << endl;*/
 
-	//makeCSVFile("No-Locality.csv", noLocality, memory);
-	//makeCSVFile("8020.csv", _8020, memory);
-	//makeCSVFile("loop.csv", looping, memory);
+	makeCSVFile("No-Locality.csv", noLocality, memory);
+	makeCSVFile("8020.csv", _8020, memory);
+	makeCSVFile("loop.csv", looping, memory);
 
 	return 0;
 }
 
 void makeCSVFile(string fileName, const vector<int> & pages, RepPolicies memory){
-	std::fstream myfile;
+	std::ofstream myfile;
 	myfile.open(fileName);
+	cout << fileName << endl;
 	double opt;
 	double lru;
 	double fifo;
@@ -57,32 +73,15 @@ void makeCSVFile(string fileName, const vector<int> & pages, RepPolicies memory)
 	double clock;
 
 	myfile << "#" + fileName + ", OPT, LRU, FIFO, RAND, CLOCK \n";
-	for(int i = 0; i < 100; i++){
+	for(int i = 5; i <= 100; i++){
 		if( i % 5 == 0){
 			memory.setMaxMemory(i);
-
-			//ATTEMPT 1 TO WRITE TO CSV
-			//myfile <<"%d, %f, %f, %f, %f, %f", i, memory.optimal(pages), memory.LRU(pages), memory.FIFOPolicy(pages), memory.randomPolicy(pages), 0.2; //replace .02 with memory.clock(page)
-
-
-			//ATTEMPT 2 TO WRITE TO CSV
-			//string row = toString(memory.optimal(pages)) + "," + toString(memory.LRU(pages)) + "," + toString(memory.FIFOPolicy(pages)) + "," + toString(memory.randomPolicy(pages)) + "\n";
-
-			//myfile << row;*/
-
-			//ATTEMPT 3 TO WRITE TO CSV
-			/*opt = memory.optimal(pages);
+			opt = memory.optimal(pages);
 	 		lru = memory.LRU(pages); 
 			fifo = memory.FIFOPolicy(pages);
 			rand = memory.randomPolicy(pages);
-			clock = .02; //REPLACE WITH memory.clock(pages) when clock is finished
-			myfile << i << "," << opt << "," << lru << "," << fifo << "," << rand << "," << clock;*/
-
-			//ATTEMPT 4 TO WRITE TO CSV
-			//stringstream stream = i << ", " << memory.optimal(pages) << ", " << memory.LRU(pages) << ", " << memory.FIFOPolicy(pages) << ", " << memory.randomPolicy(pages) << "\n";
-			//string row = stream.str();
-			//cout << row << endl;
-			//myfile << row;
+			clock = memory.clock(pages);
+			myfile << i << "," << opt << "," << lru << "," << fifo << "," << rand << "," << clock << endl;
 		}
 	}
 	myfile.close();

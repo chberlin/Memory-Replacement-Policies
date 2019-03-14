@@ -45,12 +45,6 @@ double RepPolicies::optimal(const vector<int> pages){
 			}
 			miss++;
 		}
-		/*cout << "-------------------" << endl;
-		cout<<"[";
-			for(int j = 0; j < maxMemory; j++){
-				cout << memory[j] << ", ";
-			}
-			cout << "]"<< endl;*/
 	}	
 	return hitRate(hit, miss);
 }
@@ -82,6 +76,7 @@ double RepPolicies::randomPolicy(const vector<int> pages){
 	int hit = 0;
 	int memory[maxMemory];
 	int memorySize = 0;
+	srand(time(NULL));
 	for(int i = 0; i < pages.size(); i++){
 		if(inMemory(memory, pages.at(i))){
 			hit++;
@@ -101,21 +96,12 @@ double RepPolicies::randomPolicy(const vector<int> pages){
 	return hitRate(hit, miss);
 }
 
-
 double RepPolicies::LRU(const vector<int> pages){
 	int miss = 0;
 	int hit = 0;
 	int memory[maxMemory];
 	int memorySize = 0;
 	intalizeMemoryArray(memory);
-	//int count = 0;
-	/*for(int j : pages){
-		if(count % 10 == 0){
-			cout << endl;
-		}
-		cout << j << " ";
-		count++;
-	}*/
 	int i;
 	for(i = 0; i < pages.size(); i++){
 		if(inMemory(memory, pages.at(i))){
@@ -134,17 +120,10 @@ double RepPolicies::LRU(const vector<int> pages){
 					maxArray[m] = findDistanceToLastCall(pages, i, memory[m]);
 				}
 				int victimIndex = findMaxIndex(maxArray);
-				//cout << "New entry: " << pages.at(i) << " Victim: " << memory[victimIndex] << endl;
 				memory[victimIndex] = pages.at(i);
 			}
 			miss++;
 		}
-		/*cout << "-------------------" << endl;
-		cout<<"[";
-			for(int j = 0; j < maxMemory; j++){
-				cout << memory[j] << ", ";
-			}
-			cout << "]"<< endl;*/
 	}	
 	return hitRate(hit, miss);
 }
@@ -167,8 +146,8 @@ double RepPolicies::clock(const vector<int> pages){
 	int memory[maxMemory];
 	int memorySize = 0;
 	intalizeMemoryArray(memory);
-	int i;
-	for(i = 0; i < pages.size(); i++){
+	int p = 0;
+	for(int i = 0; i < pages.size(); i++){
 		if(inMemory(memory, pages.at(i))){
 			hit++;
 			pageMap[pages.at(i)] = 1;
@@ -180,26 +159,22 @@ double RepPolicies::clock(const vector<int> pages){
 				memorySize++;
 			}
 			else{
-				int victimIndex = 0;
-				for(int m = 0; m < memorySize; m++){
-					if(pageMap[memory[m]] == 0){
-						victimIndex = m;
-						break;
+				int victimIndex;
+				bool victimFound = false;
+				while(!victimFound){
+					if(pageMap[memory[p]] == 0){
+						victimIndex = p;
+						victimFound = true;
 					}
-					else if(pageMap[memory[m]] == 1){
-						pageMap[memory[m]] = 0;
+					else{
+						pageMap[memory[p]] = 0;
 					}
+					p = addP(p, memorySize);
 				}
 				memory[victimIndex] = pages.at(i);
 			}
 			miss++;
 		}
-		/*cout << "-------------------" << endl;
-		cout<<"[";
-			for(int j = 0; j < maxMemory; j++){
-				cout << memory[j] << ", ";
-			}
-			cout << "]"<< endl;*/
 	}
 	return hitRate(hit, miss);
 }
@@ -223,12 +198,11 @@ int RepPolicies::findDistanceToNextCall(const vector<int> &pages, int start, int
 }
 
 double RepPolicies::hitRate(int hit, int miss){
-	return (double(hit)/ (double(hit) + miss));
+	return (100 *(double(hit)/ (double(hit) + miss)));
 }
 int RepPolicies::findMaxIndex(int maxArray[]){
 	int max = 0;
 	for(int i = 0; i < maxMemory; i++){
-		//cout << maxArray[i] << " , ";
 		if (maxArray[i] > maxArray[max]){
 			max = i;
 		}
@@ -249,18 +223,12 @@ void RepPolicies::intalizeMemoryArray(int *memory){
 	}
 }
 
-// In a given array, memory, find the index of the given value
-int RepPolicies::indexByValue(int * memory, int value) {
-
-	for (int ii = 0; ii < maxMemory; ii++) {
-		if (memory[ii] == value) {
-			return ii;
-		}
+int RepPolicies::addP(int p, int memorySize){
+	if(p >= memorySize){
+		return 0;
 	}
-	// This is the case in which we didn't find the value in the array,
-	// which shouldn't happen due to the checks that happen before this
-	// function would be called
-	return -1;
-
+	else{
+		return (p + 1);
+	}
 }
 

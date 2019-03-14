@@ -39,6 +39,7 @@ bool PageGenerate::setmaxInt(int newValue){
 }
 
 vector<int> PageGenerate::generateNoLocality(){
+	srand(time(NULL));
 	vector<int> pages;
 	int randNum;
 	for(int i = 0; i < numPages; i++){
@@ -49,6 +50,7 @@ vector<int> PageGenerate::generateNoLocality(){
 }
 
 vector<int> PageGenerate::generate8020(){
+		srand(time(NULL));
 	//Making values 0-19 repersent 80% of pages
 	vector<int> pages;
 	int hotQuantity = .8 * numPages;
@@ -62,8 +64,8 @@ vector<int> PageGenerate::generate8020(){
 		pages.push_back(rVal);
 		i++;
 	}
-	auto rng = default_random_engine {};
-	shuffle(begin(pages), end(pages), rng);
+	//auto rng = default_random_engine {};
+	//shuffle(begin(pages), end(pages), rng);
 	return pages;
 }
 
@@ -71,7 +73,7 @@ vector<int> PageGenerate::generateLooping(){
 	vector<int> pages;
 	int count = 0;
 	for(int i = 0; i < numPages; i++){
-		if(count > (maxInt/2)){
+		if(count > (49)){
 			count = 0;
 		}
 		pages.push_back(count);

@@ -35,8 +35,11 @@ Provides methods to implement replacement policy algorithims when memory is full
 To compile
 `make`
 
+To run and Generate CSV files
+`./prog3`
+
 To graph output
 `make graph`
 
-clean
+Removes .o, executable, csv, and png files
 `make clean`
